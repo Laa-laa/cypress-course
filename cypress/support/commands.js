@@ -23,3 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('dataCy', (value) => {
+    cy.get(`[data-cy=${value}]`);
+   });
+   
+Cypress.Commands.add('openLightbox', () => {
+    cy.get('.relative').click(); // Sélectionne l'élément de l'image et clique dessus
+    cy.get('.fixed').should('be.visible'); // Vérifie que la lightbox est ouverte
+    });
+    
+Cypress.Commands.add('closeLightbox', () => {
+    cy.get('.fixed').click('topLeft'); // Clique en dehors de la lightbox
+    cy.get('.fixed').should('not.be.visible'); // Vérifie que la lightbox est fermée
+  });
+  

@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import './commands'
 
 context('Hello World!', () => {
     beforeEach(() => {
@@ -28,31 +29,42 @@ context('Test du composant de chiffrement César', () => {
 
 });
 
+describe('Accordion Test', () => {
+    beforeEach(() => {
+        cy.visit('../../app/accordion.html') // Replace 'path/to/your/html/file.html' with the actual path
+    })
+
+    it('Should toggle accordion items correctly', () => {
+        // First accordion item
+        cy.get('[x-data="{ open: [false, false] }"] > :nth-child(1)').as('firstAccordionItem')
+        cy.get('@firstAccordionItem').find('svg').should('not.have.class', 'rotate-90')
+        cy.get('@firstAccordionItem').click()
+        cy.get('@firstAccordionItem').find('svg').should('have.class', 'rotate-90')
+        cy.get('@firstAccordionItem').next().should('be.visible')
+
+        // Second accordion item
+        cy.get('[x-data="{ open: [false, false] }"] > :nth-child(3)').as('secondAccordionItem')
+        cy.get('@secondAccordionItem').find('svg').should('not.have.class', 'rotate-90')
+        cy.get('@secondAccordionItem').click()
+        cy.get('@secondAccordionItem').find('svg').should('have.class', 'rotate-90')
+        cy.get('@secondAccordionItem').next().should('be.visible')
+    })
+})
+
+describe('Lightbox tests', () => {
+    beforeEach(() => {
+      cy.visit('../../caesar/lightbox.html'); // Remplacez "URL_de_votre_page" par l'URL de votre page avec la lightbox
+    });
   
-
-// // Test pour automatiser la complétion du formulaire
-// describe('Compléter le formulaire', () => {
-//     it('Remplit les champs du formulaire', () => {
-//       cy.visit('../../caesar/index.html'); // Assurez-vous que votre fichier HTML est accessible depuis cette URL
-//       cy.get('#shift').type('3'); // Remplir le champ de décalage avec la valeur 3
-//       cy.get('#message').type('Hello'); // Remplir le champ de message avec "Hello"
-//     });
-//   });
+    it('Opens the lightbox on image click', () => {
+      cy.openLightbox(); // Appelle la commande pour ouvrir la lightbox
+    });
   
-
-//   // Test pour automatiser la validation du formulaire
-// describe('Valider le formulaire', () => {
-//   it('Valide le formulaire en cliquant sur le bouton Encrypt', () => {
-//     cy.get('#encryptBtn').click(); // Cliquer sur le bouton "Encrypt"
-//     // Vérifier que le résultat est affiché
-//     cy.get('#output').should('not.be.empty');
-//   });
-// });
-
-// // Test pour vérifier l'affichage du bon résultat
-// describe('Vérifier le résultat', () => {
-//     it('Vérifie l\'affichage du bon résultat', () => {
-//       cy.get('#output').should('contain', 'Khoor'); // Vérifier que le résultat affiché est "Khoor" pour le message "Hello" avec un décalage de 3
-//     });
-//   });
+    it('Closes the lightbox on click outside', () => {
+      cy.openLightbox(); // Ouvre d'abord la lightbox
+      cy.closeLightbox(); // Appelle la commande pour fermer la lightbox
+    });
+  
+    // D'autres tests similaires à définir ici en utilisant d'autres commandes personnalisées
+  });
   
